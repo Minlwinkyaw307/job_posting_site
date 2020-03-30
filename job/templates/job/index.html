@@ -1,0 +1,14 @@
+{% extends 'job/precreated_template/base-html.html' %}
+{% block title %} {{ title }} {% endblock %}
+
+{% block body %}
+    {% include 'job/precreated_template/navbar.html' %}
+    {% include 'job/precreated_template/slider.html' %}
+{#    {% include 'job/precreated_template/front-main.html' %}#}
+    {% include 'job/precreated_template/index-job-list.html' %}
+    {% include 'job/precreated_template/index-signup.html' %}
+    {% include 'job/precreated_template/index-testimonies.html' %}
+    {% include 'job/precreated_template/footer.html' %}
+    {% include 'job/precreated_template/javascript.html' %}
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% load static %}
+
+<section class="bg-dark testimony-full">
+
+    <div class="owl-carousel single-carousel">
+        {% for job in jobs %}
+            <a href="">
+                <div class="container-fluid"
+                     style="height: 75vh; width: 100%;background-image: url('{{ job.image.all.0.image.url }}'); object-fit: fill;">
+                    <div class="row">
+                        <div class="align-self-center text-center text-lg-left" style="height: 75vh;">
+                            <h3 class="p-1"
+                                style="color: white; background-color: rgba(0,0,0,0.5);position: absolute; bottom: 5rem; left: 0;text-align: center;display: block; width: 100%;">
+
+                                {{ job.title }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</section>
