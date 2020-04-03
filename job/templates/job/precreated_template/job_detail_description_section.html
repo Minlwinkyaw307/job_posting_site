@@ -1,0 +1,125 @@
+{% load static %}
+<section class="site-section">
+    <div class="container">
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-8 mb-4 mb-lg-0">
+                <div class="d-flex align-items-center">
+                    <div class="border p-2 d-inline-block mr-3 rounded">
+                        <img src="{% static 'images/job_logo_5.jpg' %}" alt="Image">
+                    </div>
+                    <div>
+                        <h2>{{ job.title }}</h2>
+                        <div>
+                            <span class="ml-0 mr-2 mb-2"><span class="icon-briefcase mr-2"></span>{{ job.company_name }}</span>
+                            <span class="m-2"><span class="icon-room mr-2"></span>{{ job.city }}</span>
+                            <span class="m-2"><span class="icon-clock-o mr-2"></span><span
+                                    class="text-primary">{{ job.job_type }}</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-6">
+                        <a href="#" class="btn btn-block btn-light btn-md"><span
+                                class="icon-heart-o mr-2 text-danger"></span>Save Job</a>
+                    </div>
+                    <div class="col-6">
+                        <a href="#" class="btn btn-block btn-primary btn-md">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="col-lg-12 mb-5">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                        {% if job.images %}
+                            {% for img in job.images %}
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="{{img.url}}" alt="First slide">
+                            </div>
+                            {% endfor  %}
+                        {% else %}
+                            <div class="carousel-item active">
+                                <img class="d-block w-75" src="{% static 'images/no-image.png' %}" alt="First slide">
+                            </div>
+                        {% endif %}
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                           data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                           data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="mb-5">
+                    <h3 class="h5 d-flex align-items-center mb-4 text-primary"><span
+                            class="icon-align-left mr-3"></span>Job Description</h3>
+                    {{ job.description  | safe }}
+                </div>
+                <div class="mb-5">
+                    <h3 class="h5 d-flex align-items-center mb-4 text-primary"><span class="icon-rocket mr-3"></span>Responsibilities
+                    </h3>
+                    {{ job.responsibilities | safe }}
+                </div>
+
+                <div class="mb-5">
+                    <h3 class="h5 d-flex align-items-center mb-4 text-primary"><span class="icon-book mr-3"></span>Education
+                        + Experience</h3>
+                    {{ job.education | safe }}
+                </div>
+
+                <div class="mb-5">
+                    <h3 class="h5 d-flex align-items-center mb-4 text-primary"><span class="icon-turned_in mr-3"></span>Other
+                        Benifits</h3>
+                    {{ job.benefits | safe }}
+                </div>
+
+                <div class="row mb-5">
+                    <div class="col-6">
+                        <a href="#" class="btn btn-block btn-light btn-md"><span
+                                class="icon-heart-o mr-2 text-danger"></span>Save Job</a>
+                    </div>
+                    <div class="col-6">
+                        <a href="#" class="btn btn-block btn-primary btn-md">Apply Now</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4">
+                <div class="bg-light p-3 border rounded mb-4">
+                    <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Job Summary</h3>
+                    <ul class="list-unstyled pl-3 mb-0">
+                        <li class="mb-2"><strong class="text-black">Published
+                            on:</strong> {{ job.created_at|date:"M d, Y" }}</li>
+                        <li class="mb-2"><strong class="text-black">Employment Status:</strong> {{ job.job_type }}</li>
+                        <li class="mb-2"><strong class="text-black">Experience:</strong> {{ job.experience }}</li>
+                        <li class="mb-2"><strong class="text-black">Job Location:</strong> {{ job.city }}</li>
+                        <li class="mb-2"><strong class="text-black">Salary:</strong> {{ job.salary }}</li>
+                        <li class="mb-2"><strong class="text-black">Gender:</strong> {{ job.gender }}</li>
+                        <li class="mb-2"><strong class="text-black">Application
+                            Deadline:</strong> {{ job.deadline|date:"M d, Y" }}</li>
+                    </ul>
+                </div>
+
+                <div class="bg-light p-3 border rounded">
+                    <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Share</h3>
+                    <div class="px-3">
+                        <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-facebook"></span></a>
+                        <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-twitter"></span></a>
+                        <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-linkedin"></span></a>
+                        <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-pinterest"></span></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

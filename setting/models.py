@@ -1,6 +1,5 @@
 from django.db import models
 from ckeditor.fields import RichTextField
-from job.models import GeneralStatus
 from django.utils import timezone
 
 from django import forms
@@ -36,7 +35,7 @@ class Setting(models.Model):
 class FAQ(models.Model):
     question = models.TextField(null=False, blank=True, )
     answer = models.TextField(null=False, blank=True,)
-    status = models.ForeignKey(GeneralStatus, on_delete=models.SET_DEFAULT, default=2, null=False, blank=False)
+    status = models.BooleanField(default=False, null=False, blank=False)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
