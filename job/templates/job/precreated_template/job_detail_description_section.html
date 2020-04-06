@@ -3,9 +3,19 @@
     <div class="container">
         <div class="row align-items-center mb-5">
             <div class="col-lg-8 mb-4 mb-lg-0">
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <p class="alert alert-danger">{{ message }}</p>
+                        {% else %}
+                            <p class="alert alert-success">{{ message }}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
                 <div class="d-flex align-items-center">
+
                     <div class="border p-2 d-inline-block mr-3 rounded">
-                        <img src="{% static 'images/job_logo_5.jpg' %}" alt="Image">
+                        <img src="{{ job.company_logo.url }}" alt="Image" width="100">
                     </div>
                     <div>
                         <h2>{{ job.title }}</h2>
@@ -20,13 +30,30 @@
             </div>
             <div class="col-lg-4">
                 <div class="row">
-                    <div class="col-6">
-                        <a href="#" class="btn btn-block btn-light btn-md"><span
-                                class="icon-heart-o mr-2 text-danger"></span>Save Job</a>
-                    </div>
-                    <div class="col-6">
-                        <a href="#" class="btn btn-block btn-primary btn-md">Apply Now</a>
-                    </div>
+                    {% if user.is_authenticated %}
+                        <div class="col-6">
+                            {% if saved %}
+                                <a href="{% url 'job.save' slug=job.slug %}" class="btn btn-block btn-light btn-md"><span
+                                    class="icon-heart mr-2 text-danger"></span>Unsaved Job</a>
+                            {% else %}
+                                <a href="{% url 'job.save' slug=job.slug %}" class="btn btn-block btn-light btn-md"><span
+                                    class="icon-heart-o mr-2 text-danger"></span>Save Job</a>
+                            {% endif %}
+                        </div>
+                        <div class="col-6">
+                            {% if not applied %}
+                                <a href="{% url 'job.apply' slug=job.slug %}" class="btn btn-block btn-primary btn-md">Apply
+                                    Now</a>
+                            {% else %}
+                                <button class="btn btn-block btn-secondary btn-md" disabled> Applied</button>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="col-12">
+                            <a href="#" class="btn btn-block btn-primary btn-md"><span
+                                    class="icon-sign-in mr-2"></span>Login To Save And Apply</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -35,17 +62,18 @@
                 <div class="col-lg-12 mb-5">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
-                        {% if job.images %}
-                            {% for img in job.images %}
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="{{img.url}}" alt="First slide">
-                            </div>
-                            {% endfor  %}
-                        {% else %}
-                            <div class="carousel-item active">
-                                <img class="d-block w-75" src="{% static 'images/no-image.png' %}" alt="First slide">
-                            </div>
-                        {% endif %}
+                            {% if job.images %}
+                                {% for img in job.images %}
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100" src="{{ img.url }}" alt="First slide">
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="carousel-item active">
+                                    <img class="d-block w-75" src="{% static 'images/no-image.png' %}"
+                                         alt="First slide">
+                                </div>
+                            {% endif %}
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
                            data-slide="prev">
@@ -83,13 +111,20 @@
                 </div>
 
                 <div class="row mb-5">
-                    <div class="col-6">
-                        <a href="#" class="btn btn-block btn-light btn-md"><span
-                                class="icon-heart-o mr-2 text-danger"></span>Save Job</a>
-                    </div>
-                    <div class="col-6">
-                        <a href="#" class="btn btn-block btn-primary btn-md">Apply Now</a>
-                    </div>
+                    {% if user.is_authenticated %}
+                        <div class="col-6">
+                            <a href="#" class="btn btn-block btn-light btn-md"><span
+                                    class="icon-heart-o mr-2 text-danger"></span>Save Job</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="#" class="btn btn-block btn-primary btn-md">Apply Now</a>
+                        </div>
+                    {% else %}
+                        <div class="col-12">
+                            <a href="#" class="btn btn-block btn-primary btn-md"><span
+                                    class="icon-sign-in mr-2"></span>Login To Save And Apply</a>
+                        </div>
+                    {% endif %}
                 </div>
 
             </div>

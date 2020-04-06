@@ -27,15 +27,25 @@ class Setting(models.Model):
     twitter = models.URLField(max_length=35, verbose_name='Twitter Link', null=False, blank=False)
     instagram = models.URLField(max_length=35, verbose_name='Instagram Link', null=False, blank=False)
     aboutus = RichTextField(verbose_name='About Us', null=False, blank=False)
+    contactus = RichTextField(verbose_name='Contact Us', null=True, blank=True)
+    references = RichTextField(verbose_name='References', null=True, blank=True)
 
     def __str__(self):
         return str(self.title)
 
 
+faq_status = (
+    ('New', 'New'),
+    ('Answered', 'Answered'),
+    ('Rejected', 'Rejected'),
+
+)
+
+
 class FAQ(models.Model):
     question = models.TextField(null=False, blank=True, )
-    answer = models.TextField(null=False, blank=True,)
-    status = models.BooleanField(default=False, null=False, blank=False)
+    answer = models.TextField(null=False, blank=True, )
+    status = models.CharField(max_length=15, choices=faq_status, default='New', null=False, blank=False)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
@@ -48,16 +58,37 @@ class FAQ(models.Model):
         verbose_name_plural = "FAQ(s)"
 
 
-class FAQStatus(models.Model):
-    status = models.CharField(max_length=20, null=False, blank=False, )
+# class FAQStatus(models.Model):
+#     status = models.CharField(max_length=20, null=False, blank=False, )
+# 
+#     def __str__(self):
+#         return str(self.status)
+# 
+#     class Meta:
+#         verbose_name_plural = 'FAQ\'s Statuses'
+#         verbose_name = "FAQ's Status"
+
+
+message_status = (
+    ('New', 'New'),
+    ('Read', 'Read'),
+    ('Reject', 'Reject'),
+)
+
+
+class ContactMessage(models.Model):
+    first_name = models.CharField(max_length=30, null=False, blank=False)
+    last_name = models.CharField(max_length=30, null=False, blank=False)
+    subject = models.CharField(max_length=100, null=False, blank=False, default='')
+    email = models.EmailField(null=False, blank=False, default='')
+    message = models.TextField(null=False, blank=False)
+    ip = models.GenericIPAddressField(null=True, blank=True)
+    status = models.CharField(max_length=15, choices=message_status, default='New', null=False, blank=False)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
-        return str(self.status)
-    
-    class Meta:
-        verbose_name_plural = 'FAQ\'s Statuses'
-        verbose_name = "FAQ's Status"
+        return self.subject
 
-# TODO: need to create abstract User class for custom User class is need(not sure now)
-# class User(AbstractUser):
+# class Applicant(models.Model):
 #     pass

@@ -1,0 +1,12 @@
+{% extends 'job/precreated_template/base-html.html' %}
+{% block title %} {{ title }} {% endblock %}
+
+{% block body %}
+    {% include 'job/precreated_template/navbar.html' %}
+    {% include 'job/precreated_template/about_hero.html' %}
+    {% include 'job/precreated_template/about_state.html' %}
+    {{ setting.aboutus|safe }}
+    {% include 'job/precreated_template/footer.html' %}
+    {% include 'job/precreated_template/javascript.html' %}
+
+{% endblock %}

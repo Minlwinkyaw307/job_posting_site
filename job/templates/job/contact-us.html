@@ -1,0 +1,85 @@
+{% extends 'job/precreated_template/base-html.html' %}
+{% block title %} {{ title }} {% endblock %}
+
+{% block body %}
+    {% include 'job/precreated_template/navbar.html' %}
+    {% include 'job/precreated_template/contact_us_hero.html' %}
+    <section class="site-section" id="next-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <form action="#" method="POST" class="">
+                        {% csrf_token %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-danger">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        {% for field in form %}
+                            <div class="row form-group">
+
+                                <div class="col-md-12">
+                                    <label class="text-black" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{ field }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {#              <div class="row form-group">#}
+                        {#                <div class="col-md-6 mb-3 mb-md-0">#}
+                        {#                  <label class="text-black" for="fname">First Name</label>#}
+                        {#                  <input name="first_name" type="text" id="fname" class="form-control">#}
+                        {#                </div>#}
+                        {#                <div class="col-md-6">#}
+                        {#                  <label class="text-black" for="lname">Last Name</label>#}
+                        {#                  <input name="last_name" type="text" id="lname" class="form-control">#}
+                        {#                </div>#}
+                        {#              </div>#}
+                        {##}
+
+                        {##}
+                        {#              <div class="row form-group">#}
+                        {##}
+                        {#                <div class="col-md-12">#}
+                        {#                  <label class="text-black" for="subject">Subject</label>#}
+                        {#                  <input name="subject" type="subject" id="subject" class="form-control">#}
+                        {#                </div>#}
+                        {#              </div>#}
+                        {##}
+                        {#              <div class="row form-group">#}
+                        {#                <div class="col-md-12">#}
+                        {#                  <label class="text-black" for="message">ContactMessage</label>#}
+                        {#                  <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Write your notes or questions here..."></textarea>#}
+                        {#                </div>#}
+                        {#              </div>#}
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <input type="submit" value="Send Message" class="btn btn-primary btn-md text-white">
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="col-lg-5 ml-auto">
+                    <div class="p-4 mb-3 bg-white">
+                        <p class="mb-0 font-weight-bold">Address</p>
+                        <p class="mb-4">{{ setting.address }}</p>
+
+                        <p class="mb-0 font-weight-bold">Phone</p>
+                        <p class="mb-4"><a href="#">{{ setting.phone }}</a></p>
+
+                        <p class="mb-0 font-weight-bold">Email Address</p>
+                        <p class="mb-0"><a href="#">{{ setting.email }}</a></p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{ setting.contactus|safe }}
+    {% include 'job/precreated_template/footer.html' %}
+    {% include 'job/precreated_template/javascript.html' %}
+
+{% endblock %}

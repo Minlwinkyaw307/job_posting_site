@@ -9,7 +9,30 @@
         </div>
 
         <div class="row mb-5">
-            <div class="col-12">
+            <div class="col-3">
+                <div class="card py-4">
+                    <div class="body">
+                        {% for category in categories %}
+                            {% if category.subcategories|length %}
+                                <ul style="list-style: none">
+                                    <li>
+                                        <h5><b>{{ category.title }}</b></h5>
+                                        <ul style="list-style: circle; ">
+                                            {% for subcategory in category.subcategories %}
+                                                <li style="margin-left: -10px"><a
+                                                        href="{% url 'job.jobs' %}?{{ request.GET.urlencode }}&category={{ subcategory.title }}">{{ subcategory.title }}
+                                                    <span class="badge badge-success text-white">{{ subcategory.jobs | length }}</span>
+                                                </a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                </ul>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-9">
                 <ul class="job-listings mb-5">
                     {% for job in jobs %}
                         <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">

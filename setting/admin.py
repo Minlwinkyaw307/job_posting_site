@@ -4,6 +4,11 @@ from .models import *
 
 # Register your models here.
 
+@admin.register(ContactMessage)
+class MessageAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(Setting)
 class SettingAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -20,8 +25,8 @@ class SettingAdmin(admin.ModelAdmin):
         ('Social Media Links', {
             'fields': ('facebook', 'twitter', 'instagram',)
         }),
-        ('About Us Page', {
-            'fields': ('aboutus',)
+        ('Page\'s Content', {
+            'fields': ('aboutus', 'contactus', 'references')
         }),
     )
     list_display = ['title', 'company', 'email', ]
@@ -30,6 +35,3 @@ class SettingAdmin(admin.ModelAdmin):
 @admin.register(FAQ)
 class FAQAdmin(admin.ModelAdmin):
     list_display = ['question', 'status', 'created_at', ]
-
-
-

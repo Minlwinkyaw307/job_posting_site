@@ -4,8 +4,3 @@ venv/
 templates/jobboard/
 templates/skillhunt/
 *migration*
-
-*.jpg
-*.gif
-*.png
-*.tiff

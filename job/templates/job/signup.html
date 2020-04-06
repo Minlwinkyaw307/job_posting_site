@@ -1,0 +1,47 @@
+{% extends 'job/precreated_template/base-html.html' %}
+{% block title %} {{ title }} {% endblock %}
+
+{% block body %}
+    {% include 'job/precreated_template/navbar.html' %}
+    {% include 'job/precreated_template/login-hero.html' %}
+
+    <section class="site-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-5 m-auto">
+                    <h2 class="mb-4">Sign Up To JobBoard</h2>
+                    <form action="#" method="POST" class="p-4 border rounded">
+                        {% csrf_token %}
+{#                        {% for field in form %}#}
+{#                            <div class="row form-group">#}
+{#                                <div class="col-md-12 mb-3 mb-md-0">#}
+{#                                    <label class="text-black" for="fname">{{ field.label_tag }}</label>#}
+{#                                    {{ field }}<br>#}
+{#                                    {{ field.help_text }}#}
+{#                                                      <input type="text" id="fname" class="form-control" placeholder="Email address">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+                    {{ form.as_p }}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-danger">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <input type="submit" value="Sign Up" class="btn px-4 btn-primary text-white float-right">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    {% include 'job/precreated_template/footer.html' %}
+    {% include 'job/precreated_template/javascript.html' %}
+
+{% endblock %}
