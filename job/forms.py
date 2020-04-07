@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import *
@@ -14,6 +13,8 @@ from setting.models import *
 
 
 class SignUpForm(UserCreationForm):
+    field_order = ['first_name', 'last_name', 'email', 'username', 'password1', 'password2']
+
     class Meta:
         model = User
         fields = {'first_name', 'last_name', 'email', 'username', 'password1', 'password2'}
@@ -27,10 +28,10 @@ class SignUpForm(UserCreationForm):
                                       'help_text': 'Optional'}),
             'username': TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Full Name', 'help_text': 'Optional'}),
-            'password1': TextInput(attrs={'class': 'form-control', 'placeholder': 'Password',
-                                          'help_text': 'Optional'}),
-            'password2': TextInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password',
-                                          'help_text': 'Optional'}),
+            'password1': PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password',
+                                              'help_text': 'Optional'}),
+            'password2': PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password',
+                                              'help_text': 'Optional'}),
         }
 
 

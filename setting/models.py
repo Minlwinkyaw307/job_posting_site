@@ -1,7 +1,8 @@
+from django.contrib.auth.models import User
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.utils import timezone
-
+from job.models import City
 from django import forms
 
 
@@ -86,9 +87,13 @@ class ContactMessage(models.Model):
     status = models.CharField(max_length=15, choices=message_status, default='New', null=False, blank=False)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
-    
+
     def __str__(self):
         return self.subject
 
-# class Applicant(models.Model):
-#     pass
+
+applicant_status = (
+    (True, 'Active'),
+    (False, 'Deactivated'),
+)
+

@@ -6,10 +6,9 @@ from django.contrib.messages import constants
 from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
-from .forms import *
 
 from .forms import *
-
+from setting.forms import *
 from .models import *
 from setting.models import *
 
@@ -132,7 +131,10 @@ def signup_page(request):
     if request.method == 'POST':
         form = SignUpForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            # TODO: delete 2 lines
+            user.is_superuser = True
+            user.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
@@ -202,3 +204,95 @@ def contact_us_view(request):
         'form': form,
     }
     return render(request, 'job/contact-us.html', context)
+
+
+@login_required(login_url='/login')
+def profile_index(request):
+    if request.method == 'POST':
+        profile_user_update_form = ProfileUserUpdateForm(request.POST, instance=request.user)
+        if profile_user_update_form.is_valid():
+            profile_user_update_form.save()
+            messages.add_message(request, messages.SUCCESS, 'Successfully Updated')
+            return redirect('job.profile_index')
+        else:
+            messages.add_message(request, messages.ERROR, profile_user_update_form.errors)
+            return redirect('job.profile_index')
+    setting = Setting.objects.all()[0]
+    profile_user_update_form = ProfileUserUpdateForm(instance=request.user)
+    context = {
+        'title': 'Jobs',
+        'setting': setting,
+        'page': 'profile',
+        'profile_user_update_form': profile_user_update_form,
+    }
+    return render(request, 'job/profile_index.html', context)
+
+
+@login_required(login_url='/login')
+def profile_accepted_jobs(request):
+    accepted_jobs = Application.objects.filter(applicant=request.user, status='Accepted')
+    setting = Setting.objects.all()[0]
+    context = {
+        'title': 'Jobs',
+        'setting': setting,
+        'page': 'accepted_jobs',
+        'applications': accepted_jobs,
+    }
+    return render(request, 'job/profile_accepted_jobs.html', context)
+
+
+@login_required(login_url='/login')
+def profile_applied_jobs(request):
+    applied_jobs = Application.objects.filter(applicant=request.user)
+    setting = Setting.objects.all()[0]
+    context = {
+        'title': 'Jobs',
+        'setting': setting,
+        'page': 'applied_jobs',
+        'applications': applied_jobs,
+    }
+    return render(request, 'job/profile_accepted_jobs.html', context)
+
+
+@login_required(login_url='/login')
+def profile_rejected_jobs(request):
+    rejected_jobs = Application.objects.filter(applicant=request.user, status='Rejected')
+    setting = Setting.objects.all()[0]
+    context = {
+        'title': 'Jobs',
+        'setting': setting,
+        'page': 'rejected_jobs',
+        'applications': rejected_jobs,
+    }
+    return render(request, 'job/profile_rejected_jobs.html', context)
+
+
+@login_required(login_url='/login')
+def profile_saved_jobs(request):
+    saved_jobs = Saved.objects.filter(applicant=request.user)
+    setting = Setting.objects.all()[0]
+    context = {
+        'title': 'Jobs',
+        'setting': setting,
+        'page': 'saved_jobs',
+        'applications': saved_jobs,
+    }
+    return render(request, 'job/profile_saved_jobs.html', context)
+
+
+@login_required(login_url='/login')
+def profile_delete_application(request, job_id):
+    Application.objects.get(id=job_id).delete()
+    return HttpResponseRedirect(request.GET['path'])
+
+
+@login_required(login_url='/login')
+def profile_delete_saved_job(request, job_id):
+    Saved.objects.get(id=job_id).delete()
+    return HttpResponseRedirect(request.GET['path'])
+
+
+@login_required(login_url='/login')
+def logout_view(request):
+    logout(request)
+    return redirect('job.login_page')

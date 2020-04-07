@@ -9,6 +9,9 @@ class MessageAdmin(admin.ModelAdmin):
     pass
 
 
+
+
+
 @admin.register(Setting)
 class SettingAdmin(admin.ModelAdmin):
     fieldsets = (

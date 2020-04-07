@@ -1,0 +1,15 @@
+<ul class="list-unstyled block__47528 mb-0">
+    <li>{% if page == 'profile' %}<span class="active">Profile</span>{% else %}
+        <a href="{% url 'job.profile_index' %}">Profile</a> {% endif %}</li>
+    <li>{% if page == 'applied_jobs' %}<span class="active">Applied Jobs</span>{% else %}
+        <a href="{% url 'job.profile_applied_job' %}">Applied Jobs</a> {% endif %}</li>
+    <li>{% if page == 'accepted_jobs' %}<span class="active">Accepted Jobs</span>{% else %}
+        <a href="{% url 'job.profile_accepted_job' %}">Accepted Jobs</a> {% endif %}</li>
+    <li>{% if page == 'rejected_jobs' %}<span class="active">Rejected Jobs</span>{% else %}
+        <a href="{% url 'job.profile_rejected_job' %}">Rejected Jobs</a> {% endif %}</li>
+    <li>{% if page == 'saved_jobs' %}<span class="active">Saved Jobs</span>{% else %}
+        <a href="{% url 'job.profile_saved_jobs' %}">Saved Jobs</a> {% endif %}</li>
+    <li>{% if page == 'comments' %}<span class="active">Comments</span>{% else %}
+        <a href="{% url 'job.profile_index' %}">Comments</a> {% endif %}</li>
+    <li><a href="{% url 'job.logout' %}">Logout</a></li>
+</ul>

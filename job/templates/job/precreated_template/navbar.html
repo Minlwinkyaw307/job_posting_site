@@ -8,7 +8,8 @@
             <nav class="mx-auto site-navigation">
                 <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
                     <li><a href="{% url 'job.index' %}" class="nav-link active">Home</a></li>
-                    <li><a href="#">About</a></li>
+                    <li><a href="{% url 'job.about' %}">About</a></li>
+                    <li><a href="{% url 'job.contact_us' %}">Contact</a></li>
 {#                    <li class="has-children">#}
 {#                        <a href="#">Job Listings</a>#}
 {#                        <ul class="dropdown">#}
@@ -45,7 +46,7 @@
                         <a href="{% url 'job.login_page' %}" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span
                                 class="mr-2 icon-lock_outline"></span>Log In</a>
                     {% else %}
-                        <a href="#" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span
+                        <a href="{% url 'job.profile_index' %}" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span
                                 class="mr-2 icon-user-circle-o"></span>Profile</a>
                     {% endif %}
                 </div>
