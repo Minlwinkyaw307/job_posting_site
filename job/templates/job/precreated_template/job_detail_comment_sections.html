@@ -1,0 +1,44 @@
+<section>
+    <div class="container pb-5">
+        <div class="pt-5">
+            <h3 class="mb-5">{{ comments|length }} Comment(s)</h3>
+            {% if comments %}
+                <ul class="comment-list">
+                    {% for comment in comments %}
+                        <li class="comment">
+                        <div class="vcard bio">
+                            <img src="{{ comment.user.profile.url }}" alt="Image placeholder">
+                        </div>
+                            <div class="comment-body">
+                                <h3>{{ comment.user.first_name|capfirst }} {{ comment.user.last_name|capfirst }}</h3>
+                                <div class="meta text-black-50">{{ comment.created_at|date:'Y-m-d' }}</div>
+                                <p class="text-black">{{ comment.comment }}</p>
+                                {% if comment.user.user.id == request.user.id %}
+                                    <a href="{% url 'job.profile_edit_comment' comment_id=comment.id %}">Edit</a>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <h4 >There is no comment yet.</h4>
+            {% endif %}
+            <!-- END comment-list -->
+
+            {% if request.user.is_authenticated %}
+                <div class="comment-form-wrap py-5">
+                    <h3 class="mb-5">Leave a comment</h3>
+                    <form action="#" method="POST" class="">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="form-group">
+                            <input type="submit" value="Post Comment" class="btn btn-primary btn-md float-right">
+                        </div>
+                    </form>
+                </div>
+            {% else %}
+                <h3 class="pt-5 pb-5">Please <a href="{% url 'job.login_page' %}">Sign In</a> To Comment</h3>
+            {% endif %}
+        </div>
+    </div>
+</section>

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.utils import timezone
-from job.models import City
+# from job.models import City
 from django import forms
 
 
@@ -97,3 +97,11 @@ applicant_status = (
     (False, 'Deactivated'),
 )
 
+
+class Customer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,  null=True, blank=True)
+    profile = models.ImageField(upload_to='images/', default="images/profile.png")
+    city = models.CharField(max_length=100, null=True, blank=True)
+    university = models.CharField(max_length=100, null=True, blank=True)
+    previous_company = models.CharField(max_length=100, null=True, blank=True)
+    year_of_experience = models.IntegerField(null=True, blank=True)

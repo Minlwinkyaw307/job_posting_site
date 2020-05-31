@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 from django.urls import reverse
+from setting.models import Customer
 
 job_types = (
     ('Full-Time', 'Full-Time'),
@@ -107,25 +108,30 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
 
 
-# class GeneralStatus(models.Model):
-#     status = models.CharField(max_length=25, blank=False, null=False, )
-#
-#     def __str__(self):
-#         return str(self.status)
-#
-#     class Meta:
-#         verbose_name_plural = 'Category Statuses'
+comment_status = (
+    ('Published', 'Published'),
+    ('Unpublished', 'Unpublished'),
+)
 
 
 class Comment(models.Model):
     comment = models.TextField(blank=False, null=False, )
-    rate = models.IntegerField(blank=False, null=False, )
     job = models.ForeignKey('Job', on_delete=models.CASCADE, blank=False, null=False, )
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False, )
+    user = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=False, null=False, )
     ip = models.GenericIPAddressField(null=False, blank=False)
-    status = models.BooleanField(default=False, null=False, blank=False)
+    status = models.CharField(max_length=15, choices=comment_status, default='Published', null=False, blank=False)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
+
+    @property
+    def short(self):
+        if len(self.comment) > 10:
+            return self.comment[0:9] + '...'
+        else:
+            return self.comment
+
+    def __str__(self):
+        return self.short
 
 
 application_status = (
@@ -164,20 +170,20 @@ class Saved(models.Model):
         unique_together = ['job', 'applicant']
 
 
-comment_status = (
-    ('Published', 'Published'),
-    ('Unpublished', 'Unpublished'),
-)
 
 
-class JobComment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
-    job = models.ForeignKey('Job', on_delete=models.CASCADE, blank=False, null=False)
-    comment = models.TextField(blank=False, null=False)
-    ip = models.GenericIPAddressField(null=False, blank=False)
-    status = models.CharField(max_length=15, choices=comment_status, default='Published', null=False, blank=False)
-    created_at = models.DateTimeField(default=timezone.now)
-    updated_at = models.DateTimeField(default=timezone.now)
+
+# class JobComment(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
+#     job = models.ForeignKey('Job', on_delete=models.CASCADE, blank=False, null=False)
+#     comment = models.TextField(blank=False, null=False)
+#     ip = models.GenericIPAddressField(null=False, blank=False, default='127.0.0.1')
+#     status = models.CharField(max_length=15, choices=comment_status, default='Published', null=False, blank=False)
+#     created_at = models.DateTimeField(default=timezone.now)
+#     updated_at = models.DateTimeField(default=timezone.now)
+#
+
+
 
 # class Orders(models.Model):
 #     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)

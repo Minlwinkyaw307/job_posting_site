@@ -139,6 +139,5 @@ MEDIA_URL = '/media/'
 
 CKEDITOR_UPLOAD_PATH = '/media/'
 
-LOGIN_URL = '/login_page'
 
 

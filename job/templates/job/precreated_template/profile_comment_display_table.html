@@ -1,0 +1,46 @@
+                    <table class="table table-responsive">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Job's Title</th>
+                            <th scope="col">Company</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Comment</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">View</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if comments %}
+                        {% for comment in comments %}
+                            <tr>
+                                <th scope="row">{{ comment.id }}</th>
+                                <td>{{ comment.job.title }}</td>
+                                <td>{{ comment.job.company_name }}</td>
+                                <td>{{ comment.job.city.name }}</td>
+                                <td>{{ comment.short }}</td>
+                                <td>{{ comment.created_at|date:'Y-m-d' }}</td>
+                                <td>{{ comment.status }}</td>
+                                <td><a class="" href="{% url 'job.detail' slug=comment.job.slug %}">View</a></td>
+                                <td><a class="btn btn-sm btn-success text-white" href="{% url 'job.profile_edit_comment' comment_id=comment.id  %}">Edit</a></td>
+                                <td><a class="btn btn-sm btn-danger text-white" onclick="onClickDelete('{% url 'job.profile_delete_comment' comment_id=comment.id %}')">Delete</a></td>
+                                <script>
+                                    function onClickDelete(url){
+                                        if(confirm("Do you want do delete this application?"))
+                                        {
+                                            window.location.href = url + '?path=' + location.pathname;
+                                        }
+                                    }
+                                </script>
+                            </tr>
+                        {% endfor %}
+                        {% else %}
+                            <tr>
+                                <th scope="row" colspan="5">Your Comment List Is Empty</th>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>

@@ -55,3 +55,14 @@ class ContactForm(forms.ModelForm):
                        'placeholder': 'Write your notes or questions here...', 'help_text': 'Optional'}),
 
         }
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = {'comment', }
+        widgets = {
+            'comment': Textarea(
+                attrs={'class': 'form-control', 'placeholder': 'Your Comment', 'cols': '30', 'rows': '3', }, ),
+        }
+

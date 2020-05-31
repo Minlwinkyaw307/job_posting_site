@@ -8,7 +8,9 @@ from .models import *
 class MessageAdmin(admin.ModelAdmin):
     pass
 
-
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    pass
 
 
 

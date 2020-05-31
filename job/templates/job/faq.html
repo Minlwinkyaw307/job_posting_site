@@ -1,0 +1,72 @@
+{% extends 'job/precreated_template/base-html.html' %}
+{% load static %}
+{% block title %} {{ title }} {% endblock %}
+
+{% block body %}
+    {% include 'job/precreated_template/navbar.html' %}
+    <section class="section-hero overlay inner-page bg-image"
+             style="background-image: url({% static 'images/hero_1.jpg' %});" id="home-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h1 class="text-white font-weight-bold">Frequently Ask Questions</h1>
+                    <div class="custom-breadcrumbs">
+                        <a href="{% url 'job.index' %}">Home</a> <span class="mx-2 slash">/</span>
+                        <span class="text-white"><strong>Frequently Ask Questions</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="site-section" id="accordion">
+        <div class="container">
+
+            <div class="row accordion justify-content-center block__76208">
+                <div class="col-lg-5 ml-auto">
+                    {% if faqs %}
+                        {% for faq in faqs %}
+                            <div class="accordion-item">
+                                <h3 class="mb-0 heading">
+                                    <a class="btn-block h4" data-toggle="collapse" href="#collapseSix" role="button"
+                                       aria-expanded="false" aria-controls="collapseSix">{{ faq.question }}<span
+                                            class="icon"></span></a>
+                                </h3>
+                                <div id="collapseSix" class="collapse" aria-labelledby="headingOne"
+                                     data-parent="#accordion">
+                                    <div class="body-text">
+                                        <p>{{ faq.answer }}</p>
+                                    </div>
+                                </div>
+                            </div> <!-- .accordion-item -->
+                        {% endfor %}
+                    {% else %}
+                        <h4><b>We Don't Have Any FAQ. Please Ask Anything You Want To Know</b></h4>
+                    {% endif %}
+
+
+                </div>
+                <div class="col-6 col-lg-6">
+                    <form action="#" method="POST" class="p-4 border rounded">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <input type="submit" value="Submit Question"
+                                       class="btn px-4 btn-primary text-white float-right">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    {% include 'job/precreated_template/footer.html' %}
+    {% include 'job/precreated_template/javascript.html' %}
+
+{% endblock %}

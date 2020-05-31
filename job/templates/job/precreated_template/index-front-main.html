@@ -1,54 +1,98 @@
 {% load static %}
-    <!-- HOME -->
-    <section class="home-section section-hero overlay bg-image" style="background-image: url('{% static 'images/hero_1.jpg' %}'); height: 50vh" id="home-section">
+<!-- HOME -->
+<section class="home-section section-hero overlay bg-image"
+         style="background-image: url('{% static 'images/hero_1.jpg' %}'); height: 50vh" id="home-section">
 
-      <div class="container" style="height: 50vh">
+    <div class="container" style="height: 50vh">
         <div class="row align-items-center justify-content-center" style="height: 50vh">
-          <div class="col-md-12">
-{#            <div class="mb-5 text-center">#}
-{#              <h1 class="text-white font-weight-bold">The Easiest Way To Get Your Dream Job</h1>#}
-{#              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate est, consequuntur perferendis.</p>#}
-{#            </div>#}
-            <form action="#" method="get" class="search-jobs-form">
-              <div class="row mb-5">
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <input type="text" name="q" class="form-control form-control-lg" placeholder="Job title, Company...">
-                </div>
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select name="city" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Region">
-                    <option value="">Anywhere</option>
-                      {% for city in cities %}
-                    <option value="{{ city.name }}">{{ city.name }}</option>
-                      {% endfor %}
-                  </select>
-                </div>
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select name="type" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Job Type">
-                    <option value='Part-Time'>Part-Time</option>
-                    <option value='Full-Time'>Full-Time</option>
-                  </select>
-                </div>
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <button type="submit" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
-                </div>
-              </div>
-{#              <div class="row">#}
-{#                <div class="col-md-12 popular-keywords">#}
-{#                  <h3>Trending Keywords:</h3>#}
-{#                  <ul class="keywords list-unstyled m-0 p-0">#}
-{#                    <li><a href="#" class="">UI Designer</a></li>#}
-{#                    <li><a href="#" class="">Python</a></li>#}
-{#                    <li><a href="#" class="">Developer</a></li>#}
-{#                  </ul>#}
-{#                </div>#}
-{#              </div>#}
-            </form>
-          </div>
+            <div class="col-md-12">
+                {#            <div class="mb-5 text-center">#}
+                {#              <h1 class="text-white font-weight-bold">The Easiest Way To Get Your Dream Job</h1>#}
+                {#              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate est, consequuntur perferendis.</p>#}
+                {#            </div>#}
+                <form action="#" method="get" class="search-jobs-form">
+                    <div class="row mb-0">
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                            <input type="text" id="q" name="q" class="form-control form-control-lg"
+                                   placeholder="Job title, Company...">
+                            <div class="col-12 bg-white" id="search_result" style="
+                        position: relative;
+                        bottom: 0px;
+                        left: 0px;
+                        margin-top: 5px;
+                        border-radius: 0px">
+
+                            </div>
+                            <script>
+                                $("#q").on("change paste keyup", function () {
+                                    const search_result = $('#search_result');
+                                    const q = $('#q').val();
+                                    if(q.length == 0)
+                                    {
+                                        search_result.empty();
+                                        return;
+                                    }
+                                    const city = $('#city').val();
+                                    const type = $('#type').val();
+                                    $.get(`/jobs/search/auto?q=${q}&type=${type}&city=${city}`, function (data) {
+                                        {#$(".result").html(data);#}
+
+                                        search_result.empty();
+
+                                        for (var key in data) {
+                                            search_result.append(
+                                                `<a href="/job/detail/${key}" class="d-block p-2" style="text-decoration: none;">
+                                                    ${data[key]}
+                                                </a>`
+                                            )
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                            <select id="city" name="city" class="selectpicker" data-style="btn-white btn-lg"
+                                    data-width="100%"
+                                    data-live-search="true" title="Select Region">
+                                <option value="">Anywhere</option>
+                                {% for city in cities %}
+                                    <option value="{{ city.name }}">{{ city.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                            <select id="type" name="type" class="selectpicker" data-style="btn-white btn-lg"
+                                    data-width="100%"
+                                    data-live-search="true" title="Select Job Type">
+                                <option value='Part-Time'>Part-Time</option>
+                                <option value='Full-Time'>Full-Time</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block text-white btn-search"><span
+                                    class="icon-search icon mr-2"></span>Search Job
+                            </button>
+                        </div>
+                    </div>
+                    {#              <div class="row">#}
+                    {#                <div class="col-md-12 popular-keywords">#}
+                    {#                  <h3>Trending Keywords:</h3>#}
+                    {#                  <ul class="keywords list-unstyled m-0 p-0">#}
+                    {#                    <li><a href="#" class="">UI Designer</a></li>#}
+                    {#                    <li><a href="#" class="">Python</a></li>#}
+                    {#                    <li><a href="#" class="">Developer</a></li>#}
+                    {#                  </ul>#}
+                    {#                </div>#}
+                    {#              </div>#}
+                </form>
+            </div>
         </div>
-      </div>
+    </div>
 
-      <a href="#next" class="scroll-button smoothscroll">
+    <a href="#next" class="scroll-button smoothscroll">
         <span class=" icon-keyboard_arrow_down"></span>
-      </a>
+    </a>
 
-    </section>
+</section>

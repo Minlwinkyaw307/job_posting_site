@@ -33,11 +33,13 @@
                     {% if user.is_authenticated %}
                         <div class="col-6">
                             {% if saved %}
-                                <a href="{% url 'job.save' slug=job.slug %}" class="btn btn-block btn-light btn-md"><span
-                                    class="icon-heart mr-2 text-danger"></span>Unsaved Job</a>
+                                <a href="{% url 'job.save' slug=job.slug %}"
+                                   class="btn btn-block btn-light btn-md"><span
+                                        class="icon-heart mr-2 text-danger"></span>Unsaved Job</a>
                             {% else %}
-                                <a href="{% url 'job.save' slug=job.slug %}" class="btn btn-block btn-light btn-md"><span
-                                    class="icon-heart-o mr-2 text-danger"></span>Save Job</a>
+                                <a href="{% url 'job.save' slug=job.slug %}"
+                                   class="btn btn-block btn-light btn-md"><span
+                                        class="icon-heart-o mr-2 text-danger"></span>Save Job</a>
                             {% endif %}
                         </div>
                         <div class="col-6">
@@ -64,8 +66,8 @@
                         <div class="carousel-inner">
                             {% if job.images %}
                                 {% for img in job.images %}
-                                    <div class="carousel-item active">
-                                        <img class="d-block w-100" src="{{ img.url }}" alt="First slide">
+                                    <div class="carousel-item {% if forloop.counter0 == 0 %}active {% endif %}">
+                                        <img class="d-block w-100" src="{{ img.image.url }}" alt="First slide">
                                     </div>
                                 {% endfor %}
                             {% else %}
@@ -113,11 +115,23 @@
                 <div class="row mb-5">
                     {% if user.is_authenticated %}
                         <div class="col-6">
-                            <a href="#" class="btn btn-block btn-light btn-md"><span
-                                    class="icon-heart-o mr-2 text-danger"></span>Save Job</a>
+                            {% if saved %}
+                                <a href="{% url 'job.save' slug=job.slug %}"
+                                   class="btn btn-block btn-light btn-md"><span
+                                        class="icon-heart mr-2 text-danger"></span>Unsaved Job</a>
+                            {% else %}
+                                <a href="{% url 'job.save' slug=job.slug %}"
+                                   class="btn btn-block btn-light btn-md"><span
+                                        class="icon-heart-o mr-2 text-danger"></span>Save Job</a>
+                            {% endif %}
                         </div>
                         <div class="col-6">
-                            <a href="#" class="btn btn-block btn-primary btn-md">Apply Now</a>
+                            {% if not applied %}
+                                <a href="{% url 'job.apply' slug=job.slug %}" class="btn btn-block btn-primary btn-md">Apply
+                                    Now</a>
+                            {% else %}
+                                <button class="btn btn-block btn-secondary btn-md" disabled> Applied</button>
+                            {% endif %}
                         </div>
                     {% else %}
                         <div class="col-12">

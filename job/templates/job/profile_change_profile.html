@@ -10,10 +10,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
-                    <h1 class="text-white font-weight-bold">Profile</h1>
+                    <h1 class="text-white font-weight-bold">Change Password</h1>
                     <div class="custom-breadcrumbs">
                         <a href="{% url 'job.index' %}">Home</a> <span class="mx-2 slash">/</span>
-                        <span class="text-white"><strong>Profile</strong></span>
+                        <a href="{% url 'job.profile_index' %}">Profile</a> <span class="mx-2 slash">/</span>
+                        <span class="text-white"><strong>Change Profile Picture</strong></span>
                     </div>
                 </div>
             </div>
@@ -32,35 +33,32 @@
                     </div>
                 </div>
                 <div class="col-lg-9">
-                    <h1>Your Profile</h1>
+                    <h1>Edit Comments</h1>
+                    <hr>
                     <form action="#" method="POST" class="p-4 border rounded" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <h3>Personal Info</h3>
                         {% if messages %}
                             {% for message in messages %}
-                                <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}">{{ message }}</div>
+                                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %}">{{ message }}</div>
                             {% endfor %}
-                        {% endif %}
-                        {{ profile_user_update_form.as_p }}
-                        {{ profile_form.as_p }}
-                        <div class="row form-group mb-4">
-                            <div class="col-md-12 mb-3 mb-md-0">
-                                <label class="text-black" for="fname">Joined Date</label>
-                                <input type="text" id="fname" value="{{ request.user.date_joined }}"
-                                       class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="row form-group mb-4">
-                            <div class="col-md-12 mb-3 mb-md-0">
-                                <label class="text-black" for="fname">Last Logged</label>
-                                <input type="text" id="fname" value="{{ request.user.last_login }}"
-                                       class="form-control" disabled>
 
+                        {% endif %}
+                        {% csrf_token %}
+                        <div class="row from-group pb-5">
+                            <div class="col-md-12">
+                                <label for="image">Current Profile</label><br>
+                                <img src="{{ customer.profile.url }}" width="200" alt="">
                             </div>
                         </div>
+                    {{ form.as_p }}
+{#                        <div class="row form-group">#}
+{#                            <div class="col-md-12">#}
+{#                                <input type="file" class="form-control-file" name="profile" id="profile">#}
+{#                            </div>#}
+{#                        </div>#}
                         <div class="row form-group">
-                            <div class="col-md-12 ">
-                                <input type="submit" value="Update" class="btn px-4 btn-primary text-white float-right">
+                            <div class="col-md-12">
+                                <input type="submit" value="Change Password"
+                                       class="btn px-4 btn-primary text-white float-left">
                             </div>
                         </div>
                     </form>

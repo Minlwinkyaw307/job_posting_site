@@ -10,9 +10,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
-                    <h1 class="text-white font-weight-bold">Login</h1>
+                    <h1 class="text-white font-weight-bold">My Rejected Jobs</h1>
                     <div class="custom-breadcrumbs">
                         <a href="{% url 'job.index' %}">Home</a> <span class="mx-2 slash">/</span>
+                        <a href="{% url 'job.profile_index' %}">Profile</a> <span class="mx-2 slash">/</span>
                         <span class="text-white"><strong>My Rejected Jobs</strong></span>
                     </div>
                 </div>
@@ -33,7 +34,7 @@
                 </div>
                 <div class="col-lg-9">
                     <h1>Yours Rejected Jobs</h1>
-                    <hr >
+                    <hr>
                     {% include 'job/precreated_template/profile_job_display_table.html' %}
                 </div>
             </div>

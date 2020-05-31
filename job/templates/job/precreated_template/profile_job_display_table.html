@@ -1,48 +1,48 @@
-                    <table class="table table-responsive">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Job Title</th>
-                            <th scope="col">Company Name</th>
-                            <th scope="col">City Name</th>
-                            <th scope="col">Salary</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Applied Date</th>
-{#                            <th scope="col">Deadline</th>#}
-                            <th scope="col">Status</th>
-                            <th scope="col">View</th>
-                            <th scope="col">Delete</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% if applications %}
-                        {% for application in applications %}
-                            <tr>
-                                <th scope="row">{{ application.id }}</th>
-                                <td>{{ application.job.title }}</td>
-                                <td>{{ application.job.company_name }}</td>
-                                <td>{{ application.job.city.name }}</td>
-                                <td>{{ application.job.salary }}</td>
-                                <td>{{ application.job.job_type }}</td>
-                                <td>{{ application.created_at|date:'Y-m-d' }}</td>
-{#                                <td>{{ application.job.deadline|date:'Y-m-d' }}</td>#}
-                                <td>{{ application.status }}</td>
-                                <td><a class="btn btn-sm btn-success text-white" href="{% url 'job.detail' slug=application.job.slug %}">View</a></td>
-                                <td><a class="btn btn-sm btn-danger text-white" onclick="onClickDelete('{% url 'job.profile_delete_application' job_id=application.id %}')">Delete</a></td>
-                                <script>
-                                    function onClickDelete(url){
-                                        if(confirm("Do you want do delete this application?"))
-                                        {
-                                            window.location.href = url + '?path=' + location.pathname;
-                                        }
-                                    }
-                                </script>
-                            </tr>
-                        {% endfor %}
-                        {% else %}
-                            <tr>
-                                <th scope="row" colspan="5">Your List Is Empty</th>
-                            </tr>
-                        {% endif %}
-                        </tbody>
-                    </table>
+<table class="table table-responsive">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Job Title</th>
+        <th scope="col">Company Name</th>
+        <th scope="col">City Name</th>
+        <th scope="col">Salary</th>
+        <th scope="col">Type</th>
+        <th scope="col">Applied Date</th>
+        <th scope="col">Status</th>
+        <th scope="col">View</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if applications %}
+        {% for application in applications %}
+            <tr>
+                <th scope="row">{{ application.id }}</th>
+                <td>{{ application.job.title }}</td>
+                <td>{{ application.job.company_name }}</td>
+                <td>{{ application.job.city.name }}</td>
+                <td>{{ application.job.salary }}</td>
+                <td>{{ application.job.job_type }}</td>
+                <td>{{ application.created_at|date:'Y-m-d' }}</td>
+                <td>{{ application.status }}</td>
+                <td><a class="btn btn-sm btn-success text-white"
+                       href="{% url 'job.detail' slug=application.job.slug %}">View</a></td>
+                <td><a class="btn btn-sm btn-danger text-white"
+                       onclick="onClickDelete('{% url 'job.profile_delete_application' job_id=application.id %}')">Delete</a>
+                </td>
+                <script>
+                    function onClickDelete(url) {
+                        if (confirm("Do you want do delete this application?")) {
+                            window.location.href = url + '?path=' + location.pathname;
+                        }
+                    }
+                </script>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <th scope="row" colspan="5">Your List Is Empty</th>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
