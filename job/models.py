@@ -3,6 +3,8 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 from django.urls import reverse
+from django.utils.safestring import mark_safe
+
 from setting.models import Customer
 
 job_types = (
@@ -53,6 +55,15 @@ class Job(models.Model):
     def images(self):
         return Image.objects.filter(job=self)
 
+    @property
+    def thumbnail_image(self):
+        return mark_safe(f'<img src="{self.thumbnail.url}" height="50">')
+
+    @property
+    def logo_image(self):
+        return mark_safe(f'<img src="{self.company_logo.url}" height="50">')
+
+
     def get_absolute_url(self):
         return reverse('job.detail', args=[str(self.slug), ])
 
@@ -77,6 +88,10 @@ class Image(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+    @property
+    def image_tag(self):
+        return mark_safe("<img src='{}'   height='50' />".format(self.image.url))
 
 
 class Category(models.Model):

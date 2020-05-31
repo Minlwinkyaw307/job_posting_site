@@ -7,7 +7,7 @@ import os
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    readonly_fields = ['job', 'applicant', 'created_at', 'updated_at']
+    readonly_fields = ['job', 'created_at', 'updated_at']
     search_fields = ('id', 'applicant__username', 'job__title')
     list_display = ('job', 'applicant', 'status', 'ip', 'updated_at')
     list_editable = ['status', ]
@@ -47,14 +47,22 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(City)
-admin.site.register(Comment)
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['job', 'user', 'status', 'created_at']
+    list_filter = ('job', 'user', 'status', 'created_at')
+    search_fields = ('job__title', 'user__user__username', 'comment')
+    list_editable = ('status',)
 
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ['title', 'job']
-    list_filter = ('job', 'title')
-    search_fields = ('title', 'job__title')
+    list_display = ['title', 'job', 'image_tag']
+    list_filter = ('job', 'title', 'job__created_by')
+    readonly_fields = ['image_tag']
+    search_fields = ('title', 'job__title', 'job__created_by__username')
 
     def delete_model(self, request, obj):
         obj.image.delete()
@@ -66,8 +74,7 @@ class JobInlineImage(admin.StackedInline):
 
 @admin.register(Job)
 class JobAdmin(admin.ModelAdmin):
-    readonly_fields = ['created_by', 'updated_at']
-    list_filter = ('title', 'category',)
+    readonly_fields = ['created_by', 'updated_at', 'thumbnail_image', 'logo_image']
     list_editable = ('status',)
     inlines = [JobInlineImage]
     search_fields = ('title', 'category__title', 'city__name', 'id')
@@ -89,7 +96,7 @@ class JobAdmin(admin.ModelAdmin):
     #         'fields': ('thumbnail', 'status', 'created_at', 'updated_at')
     #     }),
     # )
-    list_display = ('title', 'category', 'city', 'salary', 'status')
+    list_display = ('title', 'category', 'thumbnail_image', 'logo_image', 'city', 'salary', 'status')
     list_filter = ('category', 'salary', 'created_at')
 
     def save_model(self, request, obj, form, change):

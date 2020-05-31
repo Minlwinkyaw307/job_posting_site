@@ -10,6 +10,9 @@ from django import forms
 
 
 # Create your models here.
+from django.utils.safestring import mark_safe
+
+
 class Setting(models.Model):
     title = models.CharField(max_length=150, null=False, blank=False)
     keywords = models.CharField(max_length=150, null=False, blank=False)
@@ -88,6 +91,10 @@ class ContactMessage(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
+    @property
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
     def __str__(self):
         return self.subject
 
@@ -99,9 +106,20 @@ applicant_status = (
 
 
 class Customer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,  null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     profile = models.ImageField(upload_to='images/', default="images/profile.png")
     city = models.CharField(max_length=100, null=True, blank=True)
     university = models.CharField(max_length=100, null=True, blank=True)
     previous_company = models.CharField(max_length=100, null=True, blank=True)
     year_of_experience = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+    @property
+    def email(self):
+        return self.user.email
+
+    @property
+    def profile_image(self):
+        return mark_safe(f'<img src="{self.profile.url}" height="50">')

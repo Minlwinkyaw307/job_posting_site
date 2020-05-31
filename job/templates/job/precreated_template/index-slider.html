@@ -14,7 +14,7 @@
                 <div class="carousel-item">
                 {% endif %}
                     <a href="{{ job.get_absolute_url }}">
-                        <img class="d-block w-100" src="{% static 'images/hero_1.jpg' %}"
+                        <img class="d-block w-100" src="{{ job.thumbnail.url }}"
                              style="height: 60vh; object-fit: cover;" alt="First slide">
                         <div class="carousel-caption d-none d-md-block">
                             <h2 style="background-color: rgba(0,0,0,0.3);" class="p-2  text-white d-inline-block">{{job.title}}</h2>
